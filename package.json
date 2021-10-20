@@ -1,0 +1,36 @@
+{
+  "name": "gatsby-source-mock",
+  "version": "1.0.0",
+  "description": "Gatsby source plugin to mock GraphQL data with Faker.js",
+  "main": "gatsby-node.js",
+  "scripts": {
+    "build": "babel src --out-dir .",
+    "watch": "babel src --watch --out-dir .",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kolossal-io/gatsby-source-mock.git"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "faker",
+    "mock",
+    "mocking"
+  ],
+  "author": "Marijan Barkic <marijan@kolossal.io>",
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^5.5.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8"
+  },
+  "bugs": {
+    "url": "https://github.com/kolossal-io/gatsby-source-mock/issues"
+  },
+  "homepage": "https://github.com/kolossal-io/gatsby-source-mock#readme"
+}

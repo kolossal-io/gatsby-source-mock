@@ -64,13 +64,10 @@ You may pass a callback function which will receive an instance of [Faker](https
 {
   options: {
     schema: {
-      emojiAndWord: (faker) => {
-        const emojis = ['🤖', '✌️', '🎮', '✊', '🙃'];
-        const randomEmoji = emojis[
-          Math.floor(Math.random() * emojis.length)
-        ];
-
-        return `${randomEmoji} ${faker.lorem.word()}`;
+      emoji: (faker) => {
+        return faker.random.arrayElement(
+          ['🤖', '✌️', '🎮', '✊', '🙃']
+        );
       },
       ...
     },

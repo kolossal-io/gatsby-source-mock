@@ -35,7 +35,6 @@ exports.sourceNodes = (
   for (let i = 0; i < count; i++) {
     const item = mapSchema(schema);
 
-    console.log(item);
     const nodeBase = {
       id: createNodeId(JSON.stringify(faker.datatype.number())),
       parent: null,

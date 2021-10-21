@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-mock",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Gatsby source plugin to mock GraphQL data with Faker.js",
   "main": "gatsby-node.js",
   "scripts": {

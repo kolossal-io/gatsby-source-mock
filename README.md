@@ -30,6 +30,18 @@ module.exports = {
           name: `{{name.firstName}} {{name.lastName}}`,
           company: `{{company.companyName}}`,
           balance: (faker) => faker.finance.amount() / 2,
+          features: {
+            accountType: (faker) =>
+              faker.random.arrayElement(['Free', 'Premium']),
+            creditCard: {
+              isValid: (faker) => faker.datatype.boolean(),
+              number: `{{finance.creditCardNumber}}`,
+            },
+            account: {
+              iban: `{{finance.iban}}`,
+              bic: `{{finance.bic}}`,
+            },
+          },
         },
         count: 10,
         type: `BankAccount`,
@@ -96,8 +108,19 @@ query {
       node {
         id
         balance
-        company
+        id
         name
+        company
+        features {
+          account {
+            bic
+            iban
+          }
+          creditCard {
+            number
+            isValid
+          }
+        }
       }
     }
   }
@@ -113,18 +136,38 @@ The result for this example may look something like this:
       "edges": [
         {
           "node": {
-            "id": "6044e264-625a-5a26-916b-2f2e7597c47e",
             "balance": 448.62,
+            "id": "155df202-6533-5eea-a2b7-fbb4e796bdab",
+            "name": "Filip Laurén",
             "company": "Thyssen, Grasse and Restorff",
-            "name": "Filip Laurén"
+            "features": {
+              "account": {
+                "bic": "SGHEAFZ1",
+                "iban": "BG79YWJV02007108V69521"
+              },
+              "creditCard": {
+                "number": "6384-3821-1503-3495",
+                "isValid": false
+              }
+            }
           }
         },
         {
           "node": {
-            "id": "375600fa-36dd-57cd-9cb8-0be29f5450a3",
-            "balance": 169.935,
-            "company": "Neurohr - Koester",
-            "name": "Norman Vieweg"
+            "balance": 112.395,
+            "id": "3c523dc7-4771-557b-aa0b-f0b5124dd78b",
+            "name": "Rike Weller",
+            "company": "Breitenstein OHG",
+            "features": {
+              "account": {
+                "bic": "CVCUAZT1",
+                "iban": "MK64263157663695906"
+              },
+              "creditCard": {
+                "number": "5434-1536-6521-4284",
+                "isValid": false
+              }
+            }
           }
         }
       ]

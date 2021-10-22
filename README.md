@@ -70,7 +70,7 @@ All strings will be parsed with [Faker.fake()](https://github.com/marak/Faker.js
 
 ### Callback
 
-You may pass a callback function which will receive an instance of [Faker](https://github.com/marak/Faker.js/) which may be useful for more complex situations:
+You may pass a callback function which will receive an instance of [Faker](https://github.com/marak/Faker.js/). This can be useful for more complex situations:
 
 ```js
 {
@@ -80,6 +80,21 @@ You may pass a callback function which will receive an instance of [Faker](https
         return faker.random.arrayElement(
           ['🤖', '✌️', '🎮', '✊', '🙃']
         );
+      },
+      ...
+    },
+  }
+}
+```
+
+The callback function will also receive the index of the current run as a second argument:
+
+```js
+{
+  options: {
+    schema: {
+      counter: (faker, index) => {
+        return `Number ${index + 1}`;
       },
       ...
     },

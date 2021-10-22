@@ -1,6 +1,6 @@
 const faker = require('faker');
 
-const mapSchema = (schema) => {
+const mapSchema = (schema, index) => {
   const item = {};
 
   Object.keys(schema).map((schemaKey) => {
@@ -11,7 +11,7 @@ const mapSchema = (schema) => {
     } else if (typeof schemaItem === 'object') {
       item[schemaKey] = mapSchema(schemaItem);
     } else if (typeof schemaItem === 'function') {
-      item[schemaKey] = schemaItem.bind(null, faker)();
+      item[schemaKey] = schemaItem.bind(null, faker, index)();
     } else {
       item[schemaKey] = schemaItem;
     }
@@ -33,7 +33,7 @@ exports.sourceNodes = (
   }
 
   for (let i = 0; i < count; i++) {
-    const item = mapSchema(schema);
+    const item = mapSchema(schema, i);
 
     const nodeBase = {
       id: createNodeId(JSON.stringify(faker.datatype.number())),

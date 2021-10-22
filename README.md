@@ -102,15 +102,72 @@ The callback function will also receive the index of the current run as a second
 }
 ```
 
+## Passing a dataset
+
+You may define a dataset explicitely by passing an array to `schema`. You can still use `Faker.js` interpolation and callback functions:
+
+```js
+module.exports = {
+  plugins: [
+    {
+      resolve: `gatsby-source-mock`,
+      options: {
+        schema: [
+          {
+            name: `Fred {{name.lastName}}`,
+            about: (faker) => faker.lorem.paragraphs(3),
+          },
+          {
+            name: `Hermine {{name.lastName}}`,
+            about: (faker) => faker.lorem.paragraph(),
+          },
+          {
+            name: `{{name.firstName}} Bowie`,
+            about: (faker) => faker.lorem.paragraphs(2),
+          },
+        ],
+        type: `User`,
+      },
+    },
+  ],
+};
+```
+
+You can also define a dataset _and_ the `count` parameter to generate multiple nodes of the given dataset.
+
+This example will create three nodes named `Harry` and two nodes named `Hermine` each with a random last name:
+
+```js
+module.exports = {
+  plugins: [
+    {
+      resolve: `gatsby-source-mock`,
+      options: {
+        schema: [
+          {
+            name: `Harry {{name.lastName}}`,
+          },
+          {
+            name: `Hermine {{name.lastName}}`,
+          },
+        ],
+        type: `Hogwarts`,
+        count: 5,
+      },
+    },
+  ],
+};
+```
+
 ## Options
 
 | Option    | Description                                                                                                                 |
 | --------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `schema`  | The object describing the schema                                                                                            |
-| `count`   | The number of fake items being generated                                                                                    |
+| `count`   | The number of fake items being generated, defaults to `10`                                                                  |
 | `type`    | Name of the graphql query node                                                                                              |
 | `seed`    | You may specify a [randomness seed](https://github.com/marak/Faker.js/#setting-a-randomness-seed) to get consistent results |
-| `locale`  | You may specify a [locale for fakes](https://github.com/marak/Faker.js/#localization) (defaults to `en`)                    |
+| `locale`  | You may specify a [locale for fakes](https://github.com/marak/Faker.js/#localization), defaults to `en`                     |
 
 ## Query mock data
 

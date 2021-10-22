@@ -20,9 +20,27 @@ const mapSchema = (schema, index) => {
   return item;
 };
 
-exports.sourceNodes = (
+const createNodeForItem = (
   { actions: { createNode }, createNodeId, createContentDigest },
-  { schema, count, type, seed, locale },
+  type,
+  item,
+) => {
+  const nodeBase = {
+    id: createNodeId(JSON.stringify(faker.datatype.number())),
+    parent: null,
+    children: [],
+    internal: {
+      type,
+      contentDigest: createContentDigest(item),
+    },
+  };
+
+  createNode(Object.assign({}, nodeBase, item));
+};
+
+exports.sourceNodes = (
+  actions,
+  { schema, count, type = 'Mock', seed, locale },
 ) => {
   if (seed) {
     faker.seed(seed);
@@ -32,19 +50,15 @@ exports.sourceNodes = (
     faker.locale = locale;
   }
 
-  for (let i = 0; i < count; i++) {
-    const item = mapSchema(schema, i);
+  if (Array.isArray(schema)) {
+    for (let i = 0; i < count ?? schema.length; i++) {
+      createNodeForItem(actions, type, mapSchema(schema[i % schema.length], i));
+    }
 
-    const nodeBase = {
-      id: createNodeId(JSON.stringify(faker.datatype.number())),
-      parent: null,
-      children: [],
-      internal: {
-        type,
-        contentDigest: createContentDigest(item),
-      },
-    };
+    return;
+  }
 
-    createNode(Object.assign({}, nodeBase, item));
+  for (let i = 0; i < count ?? 10; i++) {
+    createNodeForItem(actions, type, mapSchema(schema, i));
   }
 };

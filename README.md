@@ -102,6 +102,38 @@ The callback function will also receive the index of the current run as a second
 }
 ```
 
+## Defining data types
+
+You can explicitely define data types by providing schema keys as `<name>:<type>`:
+
+```js
+{
+  options: {
+    schema: {
+      'title:String!': '{{lorem.sentence}}',
+      'publishedAt:Date!': faker => faker.date.past(),
+      'likes:Number': faker => faker.datatype.number(),
+      subline: '{{lorem.sentence}}',
+    },
+  }
+}
+```
+
+This would result in a schema definition like this:
+
+```graphql
+id: ID!
+title: String!
+publishedAt(
+  difference: String
+  formatString: String
+  fromNow: Boolean
+  locale: String
+): Date
+likes: Number
+subline: String
+```
+
 ## Passing a dataset
 
 You may define a dataset explicitely by passing an array to `schema`. You can still use `Faker.js` interpolation and callback functions:

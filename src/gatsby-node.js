@@ -1,19 +1,22 @@
 const faker = require('faker');
 
+const TYPE_SEPARATOR = ':';
+
 const mapSchema = (schema, index) => {
   const item = {};
 
   Object.keys(schema).map((schemaKey) => {
     const schemaItem = schema[schemaKey];
+    const name = schemaKey.split(TYPE_SEPARATOR)[0];
 
     if (typeof schemaItem === 'string') {
-      item[schemaKey] = faker.fake(schemaItem);
+      item[name] = faker.fake(schemaItem);
     } else if (typeof schemaItem === 'object') {
-      item[schemaKey] = mapSchema(schemaItem);
+      item[name] = mapSchema(schemaItem);
     } else if (typeof schemaItem === 'function') {
-      item[schemaKey] = schemaItem.bind(null, faker, index)();
+      item[name] = schemaItem.bind(null, faker, index)();
     } else {
-      item[schemaKey] = schemaItem;
+      item[name] = schemaItem;
     }
   });
 
@@ -60,5 +63,30 @@ exports.sourceNodes = (
 
   for (let i = 0; i < count ?? 10; i++) {
     createNodeForItem(actions, type, mapSchema(schema, i));
+  }
+};
+
+exports.createSchemaCustomization = (
+  { actions: { createTypes } },
+  { schema, type = 'Mock' },
+) => {
+  if (Object.keys(schema).some((key) => key.includes(TYPE_SEPARATOR))) {
+    const types = Object.keys(schema).map((schemaKey) => {
+      let schemaKeyType = 'String';
+      let name = schemaKey;
+
+      if (schemaKey.includes(TYPE_SEPARATOR)) {
+        [name, schemaKeyType] = schemaKey.split(TYPE_SEPARATOR);
+      }
+
+      return `${name}: ${schemaKeyType}`;
+    });
+
+    createTypes(`
+type ${type} implements Node {
+  id: ID!
+  ${types.join('\n\t')}
+}
+    `);
   }
 };

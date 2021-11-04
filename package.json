@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-mock",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Gatsby source plugin to mock GraphQL data with Faker.js",
   "main": "gatsby-node.js",
   "scripts": {
@@ -21,6 +21,9 @@
   ],
   "author": "Marijan Barkic <marijan@kolossal.io>",
   "license": "MIT",
+  "peerDependencies": {
+    "gatsby": "^3.0.0 || ^4.0.0"
+  },
   "dependencies": {
     "faker": "^5.5.3"
   },
